@@ -1,0 +1,10 @@
+SELECT customer_name,
+case
+     WHEN count(*) = sum(case when status = 'DELIVERED'THEN 1 ELSE 0 END) THEN 'COMPLETED'
+     WHEN SUM(case when status = 'DELIVERED' THEN 1 ELSE 0 END)> 0 then 'IN PROGRESS'
+     WHEN SUM(case when status = 'SUBMITTED' THEN 1 ELSE 0 END)> 0 AND Sum(case when status =  'DELIVERED' THEN 1 ELSE 0 END ) = 0 Then 'AWAITING PROGRESS'
+ELSE 'AWAITING SUBMISSION'
+ END AS Final_Status
+From Customer_Order
+Group By customer_name
+Order By customer_name;
